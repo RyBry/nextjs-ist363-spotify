@@ -1,0 +1,15 @@
+/* Partials that are getting imported elsewhere need underscrore. */
+
+@mixin generateMargins() {
+  /* this is a "SASS list" */
+  $sides: top, right, bottom, left;
+
+  @each $side in $sides {
+    @for $i from 1 through 12 {
+      /* sass wants # for dynamic variables, javascript wants $ for object values. */
+      &.margin-#{$side}--#{$i} {
+        margin-#{$side}: #{$i}rem;
+      }
+    }
+  }
+}
