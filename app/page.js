@@ -1,21 +1,35 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import Heading from "../components/Heading";
-import Paragraph from "../components/Paragraph";
+"use client";
 
-/* You can export default function like this, or you can do it with arrow function, followed by export default arrowFunctionName */
-export default function Home() {
+import { useEffect, useState } from "react";
+
+function HomePage() {
+  const [artists, setArtists] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    try {
+      fetch("/api/artists")
+        .then((res) => res.json())
+        .then((data) => {
+          setArtists(data.artists);
+          setIsLoading(false);
+        });
+    } catch (error) {
+      setError(error);
+    }
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error loading artists</p>;
+
+  console.log({ artists });
+
   return (
-    <main>
-      <Heading level={1} marginLeft={4}>Spotify</Heading>
-      <Heading level={2}>Artists</Heading>
-      <Heading level={3}>Songs</Heading>
-      {/* You can skip intro={true}, because if intro is present, it is true(ish). */}
-      <Paragraph intro marginBottom={10}>Lorem ipsum dolor sit amet</Paragraph>
-      <Paragraph marginBottom={1}>Lorem ipsum dolor sit amet</Paragraph>
-      <Paragraph marginBottom={5}>Lorem ipsum dolor sit amet</Paragraph>
-      <Paragraph caption>Lorem ipsum dolor sit amet</Paragraph>
-      Spotify app goes here.
-    </main>
+    <div>{artists.map((artist) => {
+      return <h1 key={artist.id}>{artist.name}</h1>
+    })}</div>
   );
 }
+
+export default HomePage;
