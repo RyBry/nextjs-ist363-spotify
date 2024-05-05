@@ -1,11 +1,13 @@
 import styles from "./Header.module.scss";
+import Logo from "../../custom/Logo";
+import Heading from "../../html/Heading";
 
 export default function () {
     return (
         <header className={styles.header}>
-            Spotify Logo
+            <Logo fill="white" />
             <br />
-            Top 10 artists
+            <Heading level={1}>Top 10 artists</Heading>
         </header>
     );
 
