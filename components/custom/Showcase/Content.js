@@ -5,8 +5,9 @@ import Col from "../../layout/Col";
 import { motion } from "framer-motion";
 import ButtonUI from "../../html/ButtonUI";
 import Heading from "../../html/Heading";
+import Image from "next/image";
 
-export default function ShowcaseContent({ activeIndex, items, setActiveIndex }) {
+export default function ShowcaseContent({ activeIndex, items, setActiveIndex, latestRelease }) {
     const headlineVariants = {
         initial: { opacity: 0, x: -100 },
         animate: { opacity: 1, x: 0 },
@@ -63,11 +64,36 @@ export default function ShowcaseContent({ activeIndex, items, setActiveIndex }) 
                             } />
                         </Row>
                     </Col>
-                    <Col md={5}>
-                        <div className={styles.showcase__latest}>
-                            <Heading level={3}>Latest Releases</Heading>
-                        </div>
-                    </Col>
+                    {latestRelease && (
+                        <Col md={5}>
+                            <div className={styles.showcase__latest}>
+                                <Row>
+                                    <Col xs={4} sm={4}>
+                                        <Image
+                                            src={latestRelease.images[0].url}
+                                            alt={latestRelease.name}
+                                            width={latestRelease.images[0].width}
+                                            height={latestRelease.images[0].height}
+                                            className={styles.album__cover}
+                                        />
+                                    </Col>
+                                    <Col xs={8} sm={8}>
+                                        {" "}
+                                        <Heading level={3}>Latest Release</Heading>
+                                        <Heading level={4}>{latestRelease.name}</Heading>
+                                        <Heading level={5}>
+                                            {
+                                                // input: 2024-04-19
+                                                // split: ["2024", "04", "19"]
+                                                // zero index for "2024"
+                                                latestRelease.release_date.split("-")[0]}
+                                        </Heading>
+                                    </Col>
+                                </Row>
+                                <Heading level={3}>Latest Release</Heading>
+                            </div>
+                        </Col>
+                    )}
                     <Col md={6} textAlign="right">
                         <ButtonUI label="View artist page" icon="faArrowRight" />
                     </Col>
