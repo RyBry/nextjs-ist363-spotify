@@ -17,7 +17,7 @@ function HomePage() {
           setIsLoading(false);
         });
     } catch (error) {
-      //setError(error);
+      setError(error);
     }
   }, []);
 
