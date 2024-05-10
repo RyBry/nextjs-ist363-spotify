@@ -16,6 +16,6 @@ export async function GET(request) {
     );
 
     const albumsData = await apiResponse.json();
-
+    console.log(JSON.stringify(albumsData));
     return new Response(JSON.stringify(albumsData));
 }

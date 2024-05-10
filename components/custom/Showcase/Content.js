@@ -7,7 +7,14 @@ import ButtonUI from "../../html/ButtonUI";
 import Heading from "../../html/Heading";
 import Image from "next/image";
 
-export default function ShowcaseContent({ activeIndex, items, setActiveIndex, latestRelease }) {
+export default function ShowcaseContent({ activeIndex, items, setActiveIndex, latestRelease, isExpanded, setIsExpanded }) {
+
+    const sectionVariants = {
+        initial: { opacity: 0, y: 100 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: -100 },
+    }
+
     const headlineVariants = {
         initial: { opacity: 0, x: -100 },
         animate: { opacity: 1, x: 0 },
@@ -21,7 +28,12 @@ export default function ShowcaseContent({ activeIndex, items, setActiveIndex, la
     }
 
     return (
-        <div className={styles.showcase__content}>
+        <motion.div
+            className={styles.showcase__content}
+            variants={sectionVariants}
+            initial="initial"
+            animate={isExpanded ? "exit" : "animate"}
+            exit="exit">
             <Container>
                 <Row alignItems="flex-end" paddingBottom={2}>
                     <Col md={1}>
@@ -38,13 +50,13 @@ export default function ShowcaseContent({ activeIndex, items, setActiveIndex, la
                             <span className={styles.showcase__number}>{activeIndex + 1}</span>
                         </motion.div>
                     </Col>
-                    <Col xs={9} md={6}>
+                    <Col xs={9} md={6} textAlign="right">
                         <motion.h2
-                            className={styles.showcase__artist}
                             variants={headlineVariants}
                             initial="initial"
                             animate="animate"
                             exit="exit"
+                            className={styles.showcase__artist__name}
                             key={`artist-${activeIndex}`}
                         >
                             {items[activeIndex].name}
@@ -54,14 +66,20 @@ export default function ShowcaseContent({ activeIndex, items, setActiveIndex, la
                 <Row paddingBottom={2} paddingTop={2} borderTop={1}>
                     <Col md={1}>
                         <Row justifyContent="space-between">
-                            <ButtonUI icon="faAngleLeft" clickHandler={() => {
-                                setActiveIndex(activeIndex <= 0 ? 0 : activeIndex - 1);
-                            }
-                            } />
-                            <ButtonUI icon="faAngleRight" clickHandler={() => {
-                                setActiveIndex(activeIndex >= items.length - 1 ? items.length - 1 : activeIndex + 1);
-                            }
-                            } />
+                            <ButtonUI
+                                icon="faAngleLeft"
+                                disabled={activeIndex === 0}
+                                clickHandler={() => {
+                                    setActiveIndex(activeIndex <= 0 ? 0 : activeIndex - 1);
+                                }
+                                } />
+                            <ButtonUI
+                                icon="faAngleRight"
+                                disabled={activeIndex === items.length - 1}
+                                clickHandler={() => {
+                                    setActiveIndex(activeIndex >= items.length - 1 ? items.length - 1 : activeIndex + 1);
+                                }
+                                } />
                         </Row>
                     </Col>
                     {latestRelease && (
@@ -95,10 +113,16 @@ export default function ShowcaseContent({ activeIndex, items, setActiveIndex, la
                         </Col>
                     )}
                     <Col md={6} textAlign="right">
-                        <ButtonUI label="View artist page" icon="faArrowRight" />
+                        <ButtonUI
+                            label="View artist page"
+                            icon="faArrowRight"
+                            clickHandler={() => {
+                                setIsExpanded(true);
+                            }}
+                        />
                     </Col>
                 </Row>
             </Container>
-        </div>
+        </motion.div>
     );
 }

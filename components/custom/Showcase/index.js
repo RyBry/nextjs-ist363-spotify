@@ -1,12 +1,18 @@
-import styles from "./Showcase.module.scss";
 import { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import ShowcaseImages from "./Images";
 import ShowcaseContent from "./Content";
+import ShowcaseExpandedContent from "./ExpandedContent";
+import classNames from "classnames/bind";
+
+import styles from "./Showcase.module.scss";
+
+const cx = classNames.bind();
 
 export default function Showcase({ items }) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [albums, setAlbums] = useState([]);
+    const [isExpanded, setIsExpanded] = useState(false);
 
     useEffect(() => {
         if (items.length > 0) {
@@ -22,16 +28,35 @@ export default function Showcase({ items }) {
         }
     }, [activeIndex]);
 
+    const showcaseClasses = cx({
+        showcase: true,
+        expanded: isExpanded,
+    })
+
     return (
-        <div className={styles.showcase}>
+        <div className={showcaseClasses}>
             <AnimatePresence>
-                <ShowcaseImages items={items} activeIndex={activeIndex} />
-                <ShowcaseContent
+                <ShowcaseImages
                     items={items}
                     activeIndex={activeIndex}
-                    setActiveIndex={setActiveIndex}
-                    latestRelease={albums.length > 0 ? albums[0] : null}
-                />
+                    isExpanded={isExpanded} />
+                {!isExpanded ? (
+                    <ShowcaseContent
+                        items={items}
+                        activeIndex={activeIndex}
+                        setActiveIndex={setActiveIndex}
+                        latestRelease={albums.length > 0 ? albums[0] : null}
+                        isExpanded={isExpanded}
+                        setIsExpanded={setIsExpanded}
+                    />
+                ) : (
+                    <ShowcaseExpandedContent
+                        items={items}
+                        activeIndex={activeIndex}
+                        albums={albums}
+                        setIsExpanded={setIsExpanded}
+                    />
+                )}
             </AnimatePresence>
         </div>
     );

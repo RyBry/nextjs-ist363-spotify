@@ -7,6 +7,7 @@ export default function Heading({ children, level, marginTop, marginRight, margi
     const Tag = `h${level}`;
 
     const headingClasses = cx({
+        heading: true,
         [`heading--${level}`]: level,
         [`margin-top--${marginTop}`]: marginTop,
         [`margin-right--${marginRight}`]: marginRight,

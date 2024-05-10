@@ -1,9 +1,17 @@
 import styles from "./Showcase.module.scss";
 import Image from "next/image";
+import classnames from "classnames/bind";
 
-export default function ShowcaseImages({ activeIndex, items }) {
+const cx = classnames.bind(styles);
+
+export default function ShowcaseImages({ activeIndex, isExpanded, items }) {
+    const showcaseImageClasses = cx({
+        showcase__images: true,
+        expanded: isExpanded,
+    });
+
     return (
-        <div className={styles.showcase__images}>
+        <div className={showcaseImageClasses}>
             <ul
                 className={styles.showcase__images__list}
                 style={{
