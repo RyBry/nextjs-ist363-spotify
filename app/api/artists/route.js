@@ -22,7 +22,30 @@ export async function GET() {
             name: "Adele",
             spotify_id: "4dpARuHxo51G3z768sgnrY",
         },
-
+        {
+            name: "Alan Jackson",
+            spotify_id: "4mxWe1mtYIYfP040G38yvS",
+        },
+        {
+            name: "Eric Church",
+            spotify_id: "2IvkS5MXK0vPGnwyJsrEyV",
+        },
+        {
+            name: "Luke Combs",
+            spotify_id: "718COspgdWOnwOFpJHRZHS",
+        },
+        {
+            name: "Avicii",
+            spotify_id: "1vCWHaC5f2uS3yhpwWbIA6",
+        },
+        {
+            name: "Elton John",
+            spotify_id: "3PhoLpVuITZKcymswpck5b",
+        },
+        {
+            name: "Céline Dion",
+            spotify_id: "4S9EykWXhStSc15wEx8QFK",
+        },
     ];
 
     // Extract the artist IDs
